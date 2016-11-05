@@ -5,14 +5,16 @@ __file = None
 username = None
 password = None
 
+
 try:
     from xdg.BaseDirectory import xdg_config_home
     __file = xdg_config_home + "/quiosque-dl.conf"
-except ImportError:
+    if not os.path.exists(__file):
+        raise FileNotFoundError
+except (ImportError, FileNotFoundError):
     __file = os.path.expanduser("~") + "/.quiosque-dl.conf"
-
-if not os.path.exists(__file):
-    raise FileNotFoundError
+    if not os.path.exists(__file):
+        raise FileNotFoundError
 
 
 def run():
